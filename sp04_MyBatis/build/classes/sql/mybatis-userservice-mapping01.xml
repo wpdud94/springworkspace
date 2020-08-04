@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--	
+	mybatis-userservice-mapping.xml : SQL 를 갖는 설정화일 (MetaData) 
+	- MyBatis Framework 은 XML MetaData를 사용 SQL구문을 관리하며,
+	  (SQL은 xml 을 통해 적절히 캡슐화 되어 애플리케이선 의 외부로 분리함)
+	- SQL문의 입력(?) / 출력(?)을 매핑한다.  <== 아래의 select element 참조
+ -->
+ 
+<!-- SQL definition -->
+<!-- 
+1.
+MyBatis에서 조건에해당하는 단순 파라미터값 받아올 때는
+#{value}를 쓴다
+
+2. 
+myBatis에서  collection이나 Java Lib 클레스의 알리야스를 사용할 수 있다 : 다 소문자
+String=string, Integer = int, List=list, ArrayList = arraylist
+
+Parameter Type에 VO가 들어오면
+# getter
+Parameter Type에 단순값이 들어오면
+# value
+ -->
+<mapper namespace="UserMapper01">
+	<select id="getUser" parameterType="string" resultType="user">
+		SELECT
+		user_id userId, user_name userName, password password, age age, grade grade, reg_date reg_date
+		FROM users
+		WHERE user_id = #{value}
+		ORDER BY reg_date DESC
+	</select>
+	
+	<select id="findUserId" parameterType="user" resultType="string">
+		SELECT
+		user_name userName
+		FROM users
+		WHERE user_id = #{userId} 
+		AND password = #{password}
+		ORDER BY reg_date DESC
+	</select>
+</mapper>

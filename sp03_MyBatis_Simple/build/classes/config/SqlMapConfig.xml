@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- dbconn.properties wiring -->
+	<properties resource="config/dbconn.properties"/>
+	
+	<!-- mysawon class wiring -->
+	<typeAliases>
+		<typeAlias type="com.encore.mybatis.vo.MySawon" alias="mySawon"/>
+	</typeAliases>
+	
+	<!-- db서버 정보를 등록 -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC"/>
+			<!--UNPOOLED : driver로 connection 뽑아오기 
+				POOLED : connection pool에서 data source에서 connection 뽑아오기 -->
+			<dataSource type="UNPOOLED">
+				<!-- property = setter!!
+				 아래 property는 setDriver("com.mysql.cj.jdbc.Driver")와 같음 -->
+				<property name="driver" value="${jdbc.mysql.driver}"/>
+				<property name="url" value="${jdbc.mysql.url}"/>
+				<property name="username" value="${jdbc.mysql.username}"/>
+				<property name="password" value="${jdbc.mysql.password}"/>
+			</dataSource>
+		</environment>
+	</environments>
+	<!-- 위에서 dbconn.properties를 resource로 끌어다 썼는데 왜 다시 그 파일의 값을 다 하드코딩 하지?
+		이렇게 쓰면 안댐..! el로 처리 ${안에는 키값을 넣어서 값을 끌어옴}
+	-->
+	<!-- mapper wiring -->
+	<mappers>
+		<mapper resource="mapper/mysawon_mapping.xml"/>
+	</mappers>
+</configuration> 
+
+	
