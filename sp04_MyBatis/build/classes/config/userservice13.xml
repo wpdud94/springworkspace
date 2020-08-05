@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+	<!-- 총 5개 Bean을 만든다 -->
+	
+	<!-- DB 서버 정보와 Wiring for value 쉽게 넣도록-->
+	<!-- context 태그가 없음... 아래의 namespaces에서 context 체크 -->
+	<!-- classpath: 머리에 넣어두기 -->
+	<context:property-placeholder location="classpath:config/dbconn.properties"/>
+	
+	<!-- 1. DataSource Bean -->
+	<!-- 해당 라이브러리 가져와야 함. dpcp & pool -->
+	<!-- SqlMapConfig의 datasource는 단위테스트용... 같이 쓰이면 여기가 작동함-->
+	<!-- bean 설정문서 name은 다 정해져 있어서 자동완성 써야 함 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${jdbc.mysql.driver}"/>
+		<property name="url" value="${jdbc.mysql.url}"/>
+		<property name="username" value="${jdbc.mysql.username}"/>
+		<property name="password" value="${jdbc.mysql.password}"/>
+	</bean>
+	
+	<!-- 2. SqlSessionFactory API Bean -->
+	<!-- Spring DI 쓰기 위해서는 mybatis와 Spring을 연결하는 라이브러리를 사용해야 한다 -->
+	<!-- bean 설정문서 name은 다 정해져 있어서 자동완성 써야 함 -->
+	<!-- 두 개를 가져온다 -->
+	<bean id="SqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:config/SqlMapconfig.xml"/>
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<!-- 3. SqlSession API Bean -->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="SqlSessionFactoryBean"/>
+	</bean>
+	
+	<context:component-scan base-package="ibatis.services.user"/>
+</beans>
