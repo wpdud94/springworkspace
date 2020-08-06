@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="ProductMapper">
+	<insert id="addProduct" parameterType="myProduct" useGeneratedKeys="true" keyProperty="id">
+	INSERT INTO
+	myproduct(name, maker, price)
+	VALUES(#{name},#{maker},#{price})
+	</insert>
+	
+	<sql id="select">
+	SELECT
+	id, name, maker, price
+	FROM myProduct
+	</sql>
+	
+	<sql id="orderDESC">
+	ORDER BY id DESC
+	</sql>
+	
+	<select id="findByProductName" parameterType="string" resultType="myProduct">
+	<include refid="select"/>
+	WHERE name Like '%${value}%'
+	<include refid="orderDESC"/>
+	</select>
+	
+	<select id="findProducts" resultType="myProduct">
+	<include refid="select"/>
+	<include refid="orderDESC"/>
+	</select>
+</mapper>
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
