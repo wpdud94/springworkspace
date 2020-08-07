@@ -8,6 +8,6 @@
 </head>
 <body>
 <h2>${info}</h2>
-<a href="/WEB-INF/productRegister.jsp">홈으로</a>
+<a href="productRegister.jsp">홈으로</a>
 </body>
 </html>

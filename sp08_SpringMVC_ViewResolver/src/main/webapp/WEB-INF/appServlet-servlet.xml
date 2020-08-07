@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+<!-- 
+컨트롤러가 수행한 후, 리턴되는 객체는 ModelAndView
+ModelAndView에는 View페이지이름 + Model(Data) 정보가 담겨져 있다
+
+View페이지의 실질적인 물리적 위치정보를 다루기 위해서 필요한 라이브러리 클래스있다
+:: ViewResolver
+ViewResolver의 기본 클래스가 InternalResourceViewResolver다
+이 친구는 하나의 경로만을 표시한다
+
+이것 외에도 다양한 경로를 표시하기 위해서 BeanNameViewResolver 클래스가 사용된다
+0) 다양한 경로 표시
+하지만, 이런 용도 외에도 아주 중요한 의미가 있다
+1) File Download
+2) Ajax 기술
+사용하려면 반드시 BeanNameViewResolver를 알아야 한다
+-->
+	<bean id="ViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/response/" />
+		<property name="suffix" value=".jsp" />
+		<property name="order" value="1"/>
+	</bean>
+<!-- BeanNameViewResolver의 우선순위를 0으로 했기 때문에 이곳 먼저 찾는다.
+	있으면 찾아가고
+	없으면 ViewResolver로 간다
+	BeanNameViewResolver는 결과페이지 매핑하는 부분이 없다
+	JstlView에서 매핑해준다.
+-->
+	<bean id="BeanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="0"/>
+	</bean>
+	
+	<bean name="board_result" class="org.springframework.web.servlet.view.JstlView">
+		<property name="url" value="board/result/find_ok.jsp"/>
+	</bean>
+	
+	<bean name="product_result" class="org.springframework.web.servlet.view.JstlView">
+		<property name="url" value="product/result/find_ok.jsp"/>
+	</bean>
+	
+	<context:component-scan base-package="com.encore.spring.controller"/>
+</beans>

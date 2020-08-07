@@ -4,9 +4,8 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
-
-<!-- 1. DB 정보 가져오기 -->
-<context:property-placeholder location="classpath:config/jdbc.properties" />
+<!-- 1. 서버정보 -->
+<context:property-placeholder location="classpath:config/jdbc.properties"/>
 <!-- 2. DataSource Bean -->
 <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 	<property name="driverClassName" value="${JDBC.Driver}"/>
@@ -15,21 +14,13 @@
 	<property name="password" value="${JDBC.Password}"/>
 </bean>
 <!-- 3. SqlSessionFactory -->
-<bean id="SqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+<bean id="SqlSessionFactoryBean" class = "org.mybatis.spring.SqlSessionFactoryBean">
 	<property name="configLocation" value="classpath:config/SqlMapConfig.xml"/>
 	<property name="dataSource" ref="dataSource"/>
 </bean>
 <!-- 4. SqlSession -->
 <bean id="SqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
-	<constructor-arg ref="SqlSessionFactoryBean"/>
+	<constructor-arg name="sqlSessionFactory" ref="SqlSessionFactoryBean"/>
 </bean>
-<!-- 5. View Resolver -->
-<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-	<property name="prefix" value="/WEB-INF/result/"/>
-	<property name="suffix" value=".jsp"/>
-</bean>
-<!-- DAO, Service는 anno로 빠짐 -->
-<!-- Controller도 anno로 빠짐 -->
 <context:component-scan base-package="com.encore.spring"/>
-
 </beans>

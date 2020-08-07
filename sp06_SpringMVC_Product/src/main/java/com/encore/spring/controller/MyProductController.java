@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.encore.spring.domain.MyProduct;
@@ -17,7 +18,7 @@ public class MyProductController {
 	@Autowired
 	private MyProductService myProductService;
 	
-	@RequestMapping("myProduct.do")
+	@RequestMapping(value="myProduct.do", method=RequestMethod.POST)
 	public ModelAndView insert(MyProduct pvo) throws SQLException {
 		System.out.println("폼으로 받은 데이터"+ pvo.getId());//0
 		/*
@@ -34,7 +35,7 @@ public class MyProductController {
 		return new ModelAndView("insert_result", "info", pvo);
 	}
 	
-	@RequestMapping("mySearch.do")
+	@RequestMapping(value="mySearch.do", method=RequestMethod.POST)
 	public ModelAndView search(String word) throws SQLException {
 		List<MyProduct> list = myProductService.findByProductName(word);
 		

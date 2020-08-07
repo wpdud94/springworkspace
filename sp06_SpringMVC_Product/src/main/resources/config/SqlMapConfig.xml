@@ -5,6 +5,7 @@
 	<!-- 1. Properties Wiring -->
 	<properties resource="config/jdbc.properties"/>
 	
+	<!-- resultMap 처리 -->
 	<settings>
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
 	</settings>
