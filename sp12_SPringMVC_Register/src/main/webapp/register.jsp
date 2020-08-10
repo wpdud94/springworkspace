@@ -5,24 +5,32 @@
 <head>
 <meta charset="utf-8">
 <title>Insert title here</title>
+<style type="text/css">
+	.can{
+		color:blue;
+	}
+	
+	.cant{
+		color:red;
+	}
+</style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 $(function() {
 	$('#id').keyup(function(){
 		var id = $(this).val();
-			$('#resultView').html(' ');
 			$.ajax({
 				type:'post',
 				url:'idCheck.do',
 				data:'id='+id,
 				
-				success: function(result) {
-					alert(result.flag);
-					/* if(result==true){
-						$('#resultView').html()
+				success: function(responseData) {
+					var jsonData = JSON.parse(responseData);
+					if(jsonData==false){
+						$('#resultView').html('사용가능한 ID입니다.').addClass('can');
 					}else{
-						
-					} */
+						$('#resultView').html('사용할 수 없는 ID입니다.').addClass('cant');
+					}
 				}//success
 			});//ajax
 	});//keyup
