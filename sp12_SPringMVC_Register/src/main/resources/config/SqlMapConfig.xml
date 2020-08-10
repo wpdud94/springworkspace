@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<!--1. 서버정보 Wiring  -->
+<properties resource="config/jdbc.properties"/>
+
+<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+</settings>
+
+
+<!-- 2. VO Wiring -->
+<typeAliases>
+	<package name="com.encore.spring.domain"/>
+</typeAliases>
+
+
+	
+<!-- 3. 단위테스트를 위한 서버 등록 -->
+<environments default="dev">
+	<environment id="dev">
+		<transactionManager type="JDBC"/>
+		<dataSource type="UNPOOLED">
+			<property name="driver" value="${JDBC.driver}"/>
+			<property name="url" value="${JDBC.url}"/>
+			<property name="username" value="${JDBC.username}"/>
+			<property name="password" value="${JDBC.password}"/>
+		</dataSource>
+	</environment>
+</environments>
+<!-- 4. Mapper Wiring -->
+<mappers>
+	<mapper resource="mapper/mapper-memberservice.xml"/>
+</mappers>
+</configuration>

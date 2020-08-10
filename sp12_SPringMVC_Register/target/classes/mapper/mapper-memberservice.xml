@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MemberMapper">
+
+<sql id="Select">
+SELECT
+id, name, password, address
+FROM member
+</sql>
+<!-- showAllMember -->
+
+<select id="showAllMember" resultType="member">
+<include refid="Select"/>
+</select>
+
+<!-- showMember -->
+<select id="showMember" parameterType="string" resultType="member">
+<include refid="Select"/>
+WHERE id = #{value}
+</select>
+
+<!-- addMember -->
+<insert id="addMember" parameterType="member">
+INSERT INTO
+member(id, name, password, address)
+VALUES(#{id},#{name},#{password},#{address})
+</insert>
+
+<!-- updateMember -->
+<update id="updateMember" parameterType="member">
+UPDATE
+member
+SET
+name=#{name}, password=#{password}, address=#{address} 
+WHERE id = #{id}
+</update>
+
+<!-- Login -->
+<select id="login" parameterType="member" resultType="member">
+<include refid="Select"/>
+WHERE id = #{id}
+AND password = #{password}
+</select>
+</mapper>
