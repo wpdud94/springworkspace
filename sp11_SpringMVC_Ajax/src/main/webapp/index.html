@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<script>
+	var xhr;
+	function startRequest(){
+		xhr = new XMLHttpRequest();
+		xhr.onreadystatechange=callback;
+		xhr.open("get", "SearchId.do");
+		xhr.send(null);
+	}//startRequest
+	function callback(){
+		if(xhr.readyState==4){
+			if(xhr.status==200){
+				var jsonData=JSON.parse(xhr.responseText);
+				alert(jsonData.person.name+", "+jsonData.person.address);
+			}
+		}
+	}//callback
+</script>
+<body>
+<h2>비동기통신...Ajax...Json</h2>
+<a href="insert.do">동기통신</a><p/>
+<input type="button" value="비동기통신" onclick="startRequest()">
+
+</body>
+</html>
