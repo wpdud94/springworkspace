@@ -1,9 +1,11 @@
 package com.encore.spring.controller;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.encore.spring.domain.Member;
 import com.encore.spring.service.MemberSerivce;
 import com.encore.spring.test.MemeberServiceTest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class MemberController {
@@ -28,11 +32,11 @@ public class MemberController {
 	}
 	
 	@RequestMapping("login.do")
-	public ModelAndView login(HttpServletRequest request, Member vo) throws SQLException{
+	public String login(HttpServletRequest request, Member vo) throws SQLException{
 		//String id = request.getParameter("id");
 		Member mvo = memberService.login(vo);
 		request.getSession().setAttribute("vo", mvo);
-		return new ModelAndView("login_result.jsp");
+		return "login_result";
 	}
 	
 	@RequestMapping("logout.do")
@@ -63,11 +67,23 @@ public class MemberController {
 	}
 	
 	@RequestMapping("idCheck.do")
-	public String idCheck(String id, Model model) throws SQLException{
+	public void idCheck(String id, HttpServletResponse response) throws SQLException, JsonProcessingException{
+		ObjectMapper mapper = new ObjectMapper();
+		Member member = memberService.showMember(id);
 		boolean flag = false;
-		System.out.println(id);
-		if(memberService.showMember(id)!=null) flag=true;
-		model.addAttribute("flag",flag);
-		return "update_result";
+		if(member!=null) flag = true;
+		String jsonString = mapper.writeValueAsString(flag);
+		System.out.println(flag);
+		try {
+			response.getWriter().print(jsonString);
+		} catch (IOException e) {
+			System.out.println("Writer 문제");
+		}
+	}
+	
+	@RequestMapping("register.do")
+	public ModelAndView register(String id, String name, String password, String address) throws SQLException{
+		memberService.addMember(new Member(id, name, password, address));
+		return new ModelAndView("redirect:index.jsp");
 	}
 }

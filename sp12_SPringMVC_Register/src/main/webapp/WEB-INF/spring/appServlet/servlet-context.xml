@@ -30,6 +30,9 @@
 	<beans:bean id="logout" class="org.springframework.web.servlet.view.JstlView">
 		<beans:property name="url" value="logout.jsp" />
 	</beans:bean>
+	<beans:bean id="checkRegister" class="org.springframework.web.servlet.view.JstlView">
+		<beans:property name="url" value="/WEB-INF/views/allView.jsp" />
+	</beans:bean>
 	<context:component-scan base-package="com.encore.spring.controller" />
 	
 	
