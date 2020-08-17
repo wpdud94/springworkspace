@@ -91,10 +91,4 @@ public class EmpolyeeController {
 		if(result==false) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity(result, HttpStatus.OK);
 	}
-	
-	
-	
-	
-	
-	
 }
